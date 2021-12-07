@@ -2,6 +2,7 @@ package twitter;
 
 import static org.junit.Assert.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,22 @@ import java.util.Set;
 import org.junit.Test;
 
 public class SocialNetworkTest {
+
+    private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
+    private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
+
+    private static final Instant d3 = Instant.parse("2018-03-13T11:00:00Z");
+    private static final Instant d4 = Instant.parse("2018-04-13T11:00:00Z");
+
+    private static final Instant d5 = Instant.parse("2021-04-13T11:00:00Z");
+    private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
+    private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
+
+    private static final Tweet tweetWithUser = new Tweet(3, "deeznuts", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com", d3);
+
+    private static final Tweet tweetWithUsers = new Tweet(4, "Pikcha", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com", d4);
+
+    private static final Tweet tweetWithUsersAndAnnoying = new Tweet(4, "deeznuts", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com but wait i do like @hatsunaMiku, and @Pokicha,@trekachi, maybe @smak_tYtian", d5);
 
     /*
      * TODO: your testing strategies for these methods should go here.
@@ -36,6 +53,27 @@ public class SocialNetworkTest {
         
         assertTrue("expected empty list", influencers.isEmpty());
     }
+
+
+
+    @Test
+    public void testGuessFollowsGraphMentions(){
+        List<Tweet> tweetList = new ArrayList<>();
+
+//        tweetList.add(tweet1);
+//        tweetList.add(tweet2);
+        //testing tweet with user
+        tweetList.add(tweetWithUser);
+        //testing retweet function
+        tweetList.add(tweetWithUsers);
+
+        tweetList.add(tweetWithUsersAndAnnoying);
+
+        Map<String, Set<String>> stringSetMap = SocialNetwork.guessFollowsGraph(tweetList);
+
+
+    }
+
 
     /*
      * Warning: all the tests you write here must be runnable against any

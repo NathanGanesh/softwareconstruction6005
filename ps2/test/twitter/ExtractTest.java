@@ -70,10 +70,10 @@ public class ExtractTest {
 
     @Test
     public void testGetMentionedUsers(){
-        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweetWithUsers));
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweetWithUsers, tweetWithUsersAndAnnoying));
 
         assertEquals(
-                mentionedUsers.containsAll(Arrays.asList("Pikcha", "Pokicha", "hatsunaMiku")), "found the tagget users" );
+                mentionedUsers.containsAll(Arrays.asList("@Pikcha", "@Pokicha", "@hatsunaMiku")), "found the tagget users" );
     }
 
 

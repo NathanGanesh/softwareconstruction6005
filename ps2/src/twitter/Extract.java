@@ -69,13 +69,15 @@ public class Extract {
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
         HashSet<String> userNames = new HashSet<>();
         Pattern pattern = Pattern.compile("(\\w+(-*))*@(\\w+(-*))+");
-        Matcher matcher = pattern.matcher(tweets.get(0).getText());
-        while (matcher.find()){
-            if (matcher.group(0).indexOf("@") == 0){
-                userNames.add(matcher.group(0));
+        Matcher matcher;
+        for (Tweet tweet : tweets) {
+            matcher = pattern.matcher(tweet.getText());
+            while (matcher.find()){
+                if (matcher.group(0).indexOf("@") == 0){
+                    userNames.add(matcher.group(0));
+                }
             }
         }
-
         return userNames;
     }
 

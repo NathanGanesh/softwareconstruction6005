@@ -22,7 +22,7 @@ public class FilterTest {
     private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
     
     @Test(expected=AssertionError.class)
-    public void testAssertionsEnabled() {
+    public void testAssertionsEnabled()  {
         assert false; // make sure assertions are enabled with VM argument: -ea
     }
     

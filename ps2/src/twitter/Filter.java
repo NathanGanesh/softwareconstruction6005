@@ -1,6 +1,10 @@
 package twitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Filter consists of methods that filter a list of tweets for those matching a
@@ -24,7 +28,7 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
-        throw new RuntimeException("not implemented");
+      return   tweets.stream().filter(p -> p.getAuthor().equalsIgnoreCase(username)).collect(Collectors.toList());
     }
 
     /**
@@ -38,7 +42,13 @@ public class Filter {
      *         in the same order as in the input list.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+       return tweets.stream().filter(p ->{
+            if (p.getTimestamp().isAfter(timespan.getStart()) || p.getTimestamp().isBefore(timespan.getEnd())) {
+                return true;
+            }else{
+                return false;
+            }
+        }).collect(Collectors.toList());
     }
 
     /**
@@ -57,7 +67,20 @@ public class Filter {
      *         same order as in the input list.
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+        List<Tweet> wordsArrayList = new ArrayList<>();
+
+        for (int i = 0; i < tweets.size(); i++) {
+            List<String> text = Arrays.asList(tweets.get(i).getText().split(" "));
+            for (int i1 = 0; i1 < words.size(); i1++) {
+                for (String s : text) {
+                    if (words.get(i1).equalsIgnoreCase(s)){
+                        wordsArrayList.add(tweets.get(i));
+                    }
+                }
+            }
+        }
+
+        return wordsArrayList;
     }
 
     /* Copyright (c) 2007-2016 MIT 6.005 course staff, all rights reserved.

@@ -1,0 +1,11 @@
+
+V	java:S125"<This block of commented-out lines of code should be removed.(ÇõÁ¾ûÿÿÿÿ
+a
+java:S1854!"?Remove this useless assignment to local variable "gridHashMap".(ŸŞÿúÿÿÿÿ8Á÷Œ¤Ù/
+N	java:S106"9Replace this use of System.out or System.err by a logger.(ü’¸İ
+R
+java:S1481!"0Remove this unused "gridHashMap" local variable.(ŸŞÿúÿÿÿÿ8Ç÷Œ¤Ù/
+Z
+java:S1481""8Remove this unused "currentRowAndColumn" local variable.(ê‘·¨ıÿÿÿÿ8Ç÷Œ¤Ù/
+]	java:S1254"<This block of commented-out lines of code should be removed.(ÃÜ§Ûüÿÿÿÿ8Ê÷Œ¤Ù/
+n	java:S135&"YReduce the total number of break and continue statements in this loop to use at most one.(÷ Ã‡

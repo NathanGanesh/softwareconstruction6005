@@ -24,7 +24,9 @@ public class BookTest {
         Book book = new Book("This Test Is Just An Example", Arrays.asList("You Should", "Replace It", "With Your Own Tests"), 1990);
         assertEquals("This Test Is Just An Example", book.getTitle());
     }
-    
+
+
+
     @Test(expected=AssertionError.class)
     public void testAssertionsEnabled() {
         assert false; // make sure assertions are enabled with VM argument: -ea

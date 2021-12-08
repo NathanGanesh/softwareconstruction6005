@@ -26,12 +26,12 @@ public class SmallLibrary implements Library {
     //      where if a book copy is in inLibrary then it is available,
     //      and if a copy is in checkedOut then it is checked out
 
-    // TODO: safety from rep exposure argument
-    
-    public SmallLibrary() {
-        throw new RuntimeException("not implemented yet");
+
+    public SmallLibrary(Set<BookCopy> inLibrary, Set<BookCopy> checkedOut) {
+        this.inLibrary = inLibrary;
+        this.checkedOut = checkedOut;
     }
-    
+
     // assert the rep invariant
     private void checkRep() {
         throw new RuntimeException("not implemented yet");

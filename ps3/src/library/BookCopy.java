@@ -6,6 +6,8 @@ package library;
  */
 public class BookCopy {
 
+    private Book book;
+    private Condition condition;
     // TODO: rep
     
     // TODO: rep invariant
@@ -15,32 +17,35 @@ public class BookCopy {
     public static enum Condition {
         GOOD, DAMAGED
     };
-    
+
     /**
      * Make a new BookCopy, initially in good condition.
      * @param book the Book of which this is a copy
      */
     public BookCopy(Book book) {
-        throw new RuntimeException("not implemented yet");
+        this.book = book;
+        this.condition= Condition.GOOD;
+        checkRep();
     }
     
     // assert the rep invariant
     private void checkRep() {
-        throw new RuntimeException("not implemented yet");
+        assert book != null;
+        assert condition != null;
     }
     
     /**
      * @return the Book of which this is a copy
      */
     public Book getBook() {
-        throw new RuntimeException("not implemented yet");
+        return new Book(book.getTitle(),book.getAuthors(), book.getYear());
     }
-    
+
     /**
      * @return the condition of this book copy
      */
     public Condition getCondition() {
-        throw new RuntimeException("not implemented yet");
+        return condition;
     }
 
     /**
@@ -48,17 +53,21 @@ public class BookCopy {
      * @param condition the latest condition of the book copy
      */
     public void setCondition(Condition condition) {
-        throw new RuntimeException("not implemented yet");
+        this.condition = condition;
+        checkRep();
     }
-    
+
     /**
      * @return human-readable representation of this book that includes book.toString()
      *    and the words "good" or "damaged" depending on its condition
      */
+    @Override
     public String toString() {
-        throw new RuntimeException("not implemented yet");
+        return "BookCopy{" +
+                "book=" + book +
+                ", condition=" + condition +
+                '}';
     }
-
     // uncomment the following methods if you need to implement equals and hashCode,
     // or delete them if you don't
     // @Override

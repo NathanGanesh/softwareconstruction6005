@@ -73,9 +73,11 @@ public class SocialNetworkTest {
 
         Map<String, Set<String>> stringSetMap = SocialNetwork.guessFollowsGraph(tweetList);
     }
+    private static final Tweet manyMoreQuotes = new Tweet(8, "threaldeal", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com but wait i do like @hatsunaMiku, and @Pokicha,@trekachi, maybe @smak_tYtian @gekTitan @mskaisdasj @sakdjas", d5);
+
 
     @Test
-    public void testMostInfluence(){
+    public void testMostInfluenceBasic(){
         List<Tweet> tweetList = new ArrayList<>();
 
 //        tweetList.add(tweet1);
@@ -86,11 +88,12 @@ public class SocialNetworkTest {
         tweetList.add(retweetPikcha);
 
         tweetList.add(tweetWithUsersAndAnnoying);
+        tweetList.add(manyMoreQuotes);
         tweetList.add(smekToSaurus);
-
         Map<String, Set<String>> stringSetMap = SocialNetwork.guessFollowsGraph(tweetList);
         SocialNetwork.influencers(stringSetMap);
     }
+
 
 
     /*

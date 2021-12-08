@@ -1,6 +1,7 @@
 package twitter;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * SocialNetwork provides methods that operate on a social network.
@@ -78,9 +79,12 @@ public class SocialNetwork {
      * descending order of follower count.
      */
     public static List<String> influencers(Map<String, Set<String>> followsGraph) {
-        System.out.println(followsGraph);
-
-        throw new RuntimeException("not implemented");
+        Map <String, Integer> influenceMap = new HashMap<>();
+        for (Map.Entry<String, Set<String>> stringSetEntry : followsGraph.entrySet()) {
+            influenceMap.put(stringSetEntry.getKey(), stringSetEntry.getValue().size());
+        }
+        List<String> collect = influenceMap.entrySet().stream().sorted(Map.Entry.comparingByValue()).map(Map.Entry::getKey).collect(Collectors.toList());
+        return collect;
     }
 
     /* Copyright (c) 2007-2016 MIT 6.005 course staff, all rights reserved.

@@ -25,10 +25,12 @@ public class SocialNetworkTest {
 
     private static final Tweet tweetWithUser = new Tweet(3, "deeznuts", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com", d3);
 
-    private static final Tweet tweetWithUsers = new Tweet(4, "Pikcha", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com", d4);
+    private static final Tweet retweetPikcha = new Tweet(4, "Pikcha", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com", d4);
 
     private static final Tweet tweetWithUsersAndAnnoying = new Tweet(4, "deeznuts", "hello @Pikcha not so good with your btw send me a message on gmail deeznuts@gmail.com but wait i do like @hatsunaMiku, and @Pokicha,@trekachi, maybe @smak_tYtian", d5);
 
+    private static final Instant d6 = Instant.parse("2021-06-13T11:00:00Z");
+    private static final Tweet smekToSaurus = new Tweet(5, "taurus", "Hello @smek kek rekt @slack @mac want to go to test aight all good bye bye", d6);
     /*
      * TODO: your testing strategies for these methods should go here.
      * Make sure you have partitions.
@@ -65,13 +67,29 @@ public class SocialNetworkTest {
         //testing tweet with user
         tweetList.add(tweetWithUser);
         //testing retweet function
-        tweetList.add(tweetWithUsers);
+        tweetList.add(retweetPikcha);
 
         tweetList.add(tweetWithUsersAndAnnoying);
 
         Map<String, Set<String>> stringSetMap = SocialNetwork.guessFollowsGraph(tweetList);
+    }
 
+    @Test
+    public void testMostInfluence(){
+        List<Tweet> tweetList = new ArrayList<>();
 
+//        tweetList.add(tweet1);
+//        tweetList.add(tweet2);
+        //testing tweet with user
+        tweetList.add(tweetWithUser);
+        //testing retweet function
+        tweetList.add(retweetPikcha);
+
+        tweetList.add(tweetWithUsersAndAnnoying);
+        tweetList.add(smekToSaurus);
+
+        Map<String, Set<String>> stringSetMap = SocialNetwork.guessFollowsGraph(tweetList);
+        SocialNetwork.influencers(stringSetMap);
     }
 
 

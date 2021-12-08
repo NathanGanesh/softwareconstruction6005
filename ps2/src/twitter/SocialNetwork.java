@@ -43,8 +43,28 @@ public class SocialNetwork {
         System.out.println(tweets);
 
         for (int i = 0; i < tweets.size(); i++) {
-            Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweets.get(i)));
-            stringSetMap.put(tweets.get(i).getAuthor(), mentionedUsers);
+            Set<String> mentionedUsers = Extract.getMentionedUsers(List.of(tweets.get(i)));
+            if (stringSetMap.containsKey(tweets.get(i).getAuthor())) {
+                for (String mentionedUser : mentionedUsers) {
+                    if (!(mentionedUser.split("@")[1].equalsIgnoreCase(tweets.get(i).getAuthor()))) {
+                        stringSetMap.get(tweets.get(i).getAuthor())
+                                .add(mentionedUser);
+                    }
+                }
+            } else {
+                for (String mentionedUser : mentionedUsers) {
+                    if (!(mentionedUser.split("@")[1].equalsIgnoreCase(tweets.get(i).getAuthor()))) {
+                        if (stringSetMap.containsKey(tweets.get(i).getAuthor())) {
+                            stringSetMap.get(tweets.get(i).getAuthor())
+                                    .add(mentionedUser);
+                        } else {
+                            Set<String> initalHashSet = new HashSet<>();
+                            initalHashSet.add(mentionedUser);
+                            stringSetMap.put(tweets.get(i).getAuthor(), initalHashSet);
+                        }
+                    }
+                }
+            }
         }
         return stringSetMap;
     }
@@ -58,6 +78,7 @@ public class SocialNetwork {
      * descending order of follower count.
      */
     public static List<String> influencers(Map<String, Set<String>> followsGraph) {
+        System.out.println(followsGraph);
 
         throw new RuntimeException("not implemented");
     }

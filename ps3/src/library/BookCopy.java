@@ -1,5 +1,7 @@
 package library;
 
+import java.util.Objects;
+
 /**
  * BookCopy is a mutable type representing a particular copy of a book that is held in a library's
  * collection.
@@ -8,11 +10,7 @@ public class BookCopy {
 
     private Book book;
     private Condition condition;
-    // TODO: rep
-    
-    // TODO: rep invariant
-    // TODO: abstraction function
-    // TODO: safety from rep exposure argument
+
     
     public static enum Condition {
         GOOD, DAMAGED
@@ -23,7 +21,7 @@ public class BookCopy {
      * @param book the Book of which this is a copy
      */
     public BookCopy(Book book) {
-        this.book = book;
+        this.book = new Book(book.getTitle(), book.getAuthors(), book.getYear());
         this.condition= Condition.GOOD;
         checkRep();
     }
@@ -68,17 +66,30 @@ public class BookCopy {
                 ", condition=" + condition +
                 '}';
     }
-    // uncomment the following methods if you need to implement equals and hashCode,
-    // or delete them if you don't
-    // @Override
-    // public boolean equals(Object that) {
-    //     throw new RuntimeException("not implemented yet");
-    // }
-    // 
-    // @Override
-    // public int hashCode() {
-    //     throw new RuntimeException("not implemented yet");
-    // }
+
+    @Override
+    public int hashCode() {
+        int hashCode = 1;
+        hashCode = hashCode * 37 + this.book.hashCode();
+        hashCode = hashCode * 37 + this.condition.hashCode();
+        return hashCode;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this==that){
+            return true;
+        }
+        if (that==null){
+            return false;
+        }
+        if (! (that instanceof BookCopy)) return false;
+        Book other = (Book) that;
+        return Objects.equals(other.getTitle(), this.book.getTitle())
+                && other.getAuthors().equals(this.book.getAuthors())
+                && other.getYear()==(this.book.getYear());
+    }
+
 
 
     /* Copyright (c) 2016 MIT 6.005 course staff, all rights reserved.

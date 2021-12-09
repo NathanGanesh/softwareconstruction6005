@@ -2,8 +2,8 @@ package library;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,14 +26,15 @@ public class LibraryTest {
     /**
      * Implementation classes for the Library ADT.
      * JUnit runs this test suite once for each class name in the returned array.
+     *
      * @return array of Java class names, including their full package prefix
      */
-    @Parameters(name="{0}")
+    @Parameters(name = "{0}")
     public static Object[] allImplementationClassNames() {
-        return new Object[] { 
-            "library.SmallLibrary", 
-            "library.BigLibrary"
-        }; 
+        return new Object[]{
+                "library.SmallLibrary",
+                "library.BigLibrary"
+        };
     }
 
     /**
@@ -42,7 +43,7 @@ public class LibraryTest {
      * by allImplementationClassNames.
      */
     @Parameter
-    public String implementationClassName;    
+    public String implementationClassName;
 
     /**
      * @return a fresh instance of a Library, constructed from the implementation class specified
@@ -60,30 +61,80 @@ public class LibraryTest {
             throw new RuntimeException(e);
         }
     }
-    
-    
+
+
     /*
      * Testing strategy
      * ==================
-     * 
+     *
      * TODO: your testing strategy for this ADT should go here.
      * Make sure you have partitions.
      */
-    
+
     // TODO: put JUnit @Test methods here that you developed from your testing strategy
+    private final Book book1 = new Book("deeznuts", Arrays.asList("gottem", "smekthan"), 1990);
+
+    private final Book book2 = new Book("book2", Arrays.asList("kek", "rekthan"), 2000);
+
+    private final Book book3 = new Book("book3", Arrays.asList("lek"), 2010);
+
+    @Test
+    public void buyBook() {
+        Library library = makeLibrary();
+        BookCopy buy = library.buy(book1);
+        ArrayList<Book> books = new ArrayList<>();
+        books.add(book1);
+        HashSet<BookCopy> bookCopies = new HashSet<>();
+        bookCopies.add(buy);
+        assertEquals(bookCopies, library.availableCopies(book1));
+        assertEquals(true, library.isAvailable(buy));
+        assertEquals(bookCopies, library.find("deeznuts"));
+    }
+
+    @Test
+    public void checkOutAndIn() {
+        Library library = makeLibrary();
+        BookCopy buy = library.buy(book2);
+        library.checkin(buy);
+        HashSet<BookCopy> bookCopies = new HashSet<>();
+        assertEquals(bookCopies, library.availableCopies(book2));
+        assertEquals(false, library.isAvailable(buy));
+
+        bookCopies.add(buy);
+        library.checkout(buy);
+        assertEquals(bookCopies, library.availableCopies(book2));
+        assertEquals(true, library.isAvailable(buy));
+
+
+        assertEquals(bookCopies, library.allCopies(book2));
+
+        library.lose(buy);
+
+        assertEquals(new HashSet<>(), library.allCopies(book2));
+    }
+
+    @Test
+    public void allCopies() {
+    }
+
+    @Test
+    public void lose() {
+    }
+
+
     @Test
     public void testExampleTest() {
         Library library = makeLibrary();
         Book book = new Book("This Test Is Just An Example", Arrays.asList("You Should", "Replace It", "With Your Own Tests"), 1990);
         assertEquals(Collections.emptySet(), library.availableCopies(book));
     }
-    
-    
-    @Test(expected=AssertionError.class)
+
+
+    @Test(expected = AssertionError.class)
     public void testAssertionsEnabled() {
         assert false; // make sure assertions are enabled with VM argument: -ea
     }
-    
+
 
     /* Copyright (c) 2016 MIT 6.005 course staff, all rights reserved.
      * Redistribution of original or derived work requires explicit permission.

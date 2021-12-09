@@ -1,9 +1,13 @@
 package library;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-/** 
+/**
  * SmallLibrary represents a small collection of books, like a single person's home collection.
  */
 public class SmallLibrary implements Library {
@@ -17,7 +21,7 @@ public class SmallLibrary implements Library {
     // rep
     private Set<BookCopy> inLibrary;
     private Set<BookCopy> checkedOut;
-    
+
     // rep invariant:
     //    the intersection of inLibrary and checkedOut is the empty set
     //
@@ -30,48 +34,89 @@ public class SmallLibrary implements Library {
     public SmallLibrary(Set<BookCopy> inLibrary, Set<BookCopy> checkedOut) {
         this.inLibrary = inLibrary;
         this.checkedOut = checkedOut;
+        checkRep();
     }
 
     // assert the rep invariant
     private void checkRep() {
-        throw new RuntimeException("not implemented yet");
+        assert inLibrary.stream().anyMatch(checkedOut::contains);
     }
 
     @Override
     public BookCopy buy(Book book) {
-        throw new RuntimeException("not implemented yet");
+        BookCopy bookCopy = new BookCopy(book);
+        inLibrary.add(bookCopy);
+        return bookCopy;
     }
-    
+
     @Override
     public void checkout(BookCopy copy) {
-        throw new RuntimeException("not implemented yet");
+        if (isAvailable(copy)) {
+            checkedOut.remove(copy);
+            inLibrary.add(copy);
+
+        }
     }
-    
+
     @Override
     public void checkin(BookCopy copy) {
-        throw new RuntimeException("not implemented yet");
+        if (checkedOut.contains(copy)) {
+            inLibrary.remove(copy);
+            checkedOut.add(copy);
+        }
     }
-    
+
     @Override
     public boolean isAvailable(BookCopy copy) {
-        throw new RuntimeException("not implemented yet");
+        return inLibrary.contains(copy);
     }
-    
+
     @Override
     public Set<BookCopy> allCopies(Book book) {
-        throw new RuntimeException("not implemented yet");
+        Set<BookCopy> allCopiesSet = inLibrary.stream().filter(p ->
+                p.getBook().getTitle().equals(book.getTitle())
+        ).collect(Collectors.toSet());
+
+        allCopiesSet.addAll(checkedOut.stream().filter(p -> p.getBook().getTitle().equals(book.getTitle())).collect(Collectors.toSet()));
+        return allCopiesSet;
     }
-    
+
     @Override
     public Set<BookCopy> availableCopies(Book book) {
-        throw new RuntimeException("not implemented yet");
+        return inLibrary.stream().filter(p ->
+                p.getBook().getTitle().equals(book.getTitle())
+        ).collect(Collectors.toSet());
     }
 
     @Override
     public List<Book> find(String query) {
-        throw new RuntimeException("not implemented yet");
+        List<Book> inlibraryQuery = new ArrayList<>();
+
+        inLibrary.stream().map(p -> {
+            if (p.getBook().getAuthors().contains(query) || p.getBook().getTitle().equals(query)) {
+                inlibraryQuery.add(p.getBook());
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+
+        checkedOut.stream().map(p ->
+                {
+                    if (p.getBook().getTitle().equals(query) || p.getBook().getAuthors().contains(query)) {
+                        inlibraryQuery.add(p.getBook());
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+        );
+
+
+        return inlibraryQuery;
     }
-    
+
     @Override
     public void lose(BookCopy copy) {
         throw new RuntimeException("not implemented yet");
@@ -83,12 +128,14 @@ public class SmallLibrary implements Library {
     // public boolean equals(Object that) {
     //     throw new RuntimeException("not implemented yet");
     // }
-    // 
-    // @Override
-    // public int hashCode() {
-    //     throw new RuntimeException("not implemented yet");
-    // }
-    
+    //
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+
 
     /* Copyright (c) 2016 MIT 6.005 course staff, all rights reserved.
      * Redistribution of original or derived work requires explicit permission.

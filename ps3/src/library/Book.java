@@ -64,7 +64,6 @@ public class Book {
         assert year>=0;
         assert checkIfNotBlankAndBiggerThenLengthOne(title) != null;
         assert !checkAuthorsList(authors).isEmpty();
-        throw new RuntimeException("not implemented yet");
     }
 
     public String getTitle() {
@@ -95,20 +94,23 @@ public class Book {
     // or delete them if you don't
      @Override
      public boolean equals(Object that) {
+        if (this==that){
+            return true;
+        }
+        if (that==null){
+            return false;
+        }
          if (! (that instanceof Book)) return false;
          Book other = (Book) that;
          return other.year == this.year
                  && other.title.equals(this.title)
                  && other.authors.equals(this.authors);
      }
-    // 
-    // @Override
-    // public int hashCode() {
-    //     throw new RuntimeException("not implemented yet");
-    // }
 
-
-
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
     /* Copyright (c) 2016 MIT 6.005 course staff, all rights reserved.
      * Redistribution of original or derived work requires explicit permission.
      * Don't post any of this code on the web or to a public Github repository.
